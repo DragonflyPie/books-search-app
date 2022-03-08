@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { updateSearchParams } from "./searchSlice";
-import { fetchVolumes } from "./volumesSlice";
+import { fetchVolumes, resetVolumesState } from "./volumesSlice";
 
 const SearchForm = () => {
   const [query, setQuery] = useState("");
@@ -29,6 +29,7 @@ const SearchForm = () => {
 
   const submitSearchForm = (e) => {
     e.preventDefault();
+    dispatch(resetVolumesState());
     dispatch(
       updateSearchParams({ query: query, category: category, orderBy: orderBy })
     );

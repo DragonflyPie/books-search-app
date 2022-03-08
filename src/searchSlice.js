@@ -5,7 +5,7 @@ const searchSlice = createSlice({
     query: "",
     category: "all",
     orderBy: "relevance",
-    page: "1",
+    page: 1,
   },
   reducers: {
     updateSearchParams(state, action) {
@@ -13,9 +13,12 @@ const searchSlice = createSlice({
       state.category = action.payload.category;
       state.orderBy = action.payload.orderBy;
     },
+    updatePage(state) {
+      state.page++;
+    },
   },
 });
 
-export const { updateSearchParams } = searchSlice.actions;
+export const { updateSearchParams, updatePage } = searchSlice.actions;
 
 export default searchSlice.reducer;

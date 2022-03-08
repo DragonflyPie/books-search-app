@@ -1,4 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  createEntityAdapter,
+} from "@reduxjs/toolkit";
 import key from "./apiKey";
 
 const createSearchQuery = (query, category, orderBy, page) => {
@@ -12,12 +16,15 @@ const createSearchQuery = (query, category, orderBy, page) => {
   }&maxResults=10&fields=totalItems,items(id,volumeInfo(description,imageLinks,authors,categories,title))&key=${key}`;
 };
 
-const searchInitialState = {
+const volumesAdapter = createEntityAdapter({
+  selectId: (volume) => volume.id,
+});
+
+const searchInitialState = volumesAdapter.getInitialState({
   status: "idle",
   error: null,
   totalItems: null,
-  volumes: [],
-};
+});
 
 export const fetchVolumes = createAsyncThunk(
   "search/volumes",
@@ -37,13 +44,19 @@ export const fetchVolumes = createAsyncThunk(
     return data;
   }
 );
+
 const volumesSlice = createSlice({
   name: "volumes",
   initialState: searchInitialState,
-  reducers: {},
+  reducers: {
+    resetVolumesState: () => {
+      return searchInitialState;
+    },
+  },
   extraReducers(builder) {
     builder.addCase(fetchVolumes.fulfilled, (state, action) => {
-      state.volumes = action.payload.items;
+      volumesAdapter.upsertMany(state, action.payload.items);
+      state.totalItems = action.payload.totalItems;
       state.status = "succeeded";
     });
     builder.addCase(fetchVolumes.rejected, (state, action) => {
@@ -55,5 +68,13 @@ const volumesSlice = createSlice({
     });
   },
 });
+
+export const {
+  selectAll: selectAllVolumes,
+  selectById: selectVolumeById,
+  selectIds: selectVolumesIds,
+} = volumesAdapter.getSelectors((state) => state.volumes);
+
+export const { resetVolumesState } = volumesSlice.actions;
 
 export default volumesSlice.reducer;
