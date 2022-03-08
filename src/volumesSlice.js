@@ -41,6 +41,8 @@ export const fetchVolumes = createAsyncThunk(
     if (response.ok === false) {
       console.log(data);
       return rejectWithValue(data.error.message);
+    } else if (data.totalItems === 0) {
+      return rejectWithValue("Nothing was found");
     }
     return data;
   }
@@ -69,14 +71,9 @@ const volumesSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(fetchVolumes.fulfilled, (state, action) => {
-      if (action.payload.items) {
-        volumesAdapter.upsertMany(state, action.payload.items);
-        state.totalItems = action.payload.totalItems;
-        state.status = "succeeded";
-      } else {
-        state.error = "Nothing was found.";
-        state.status = "failed";
-      }
+      volumesAdapter.upsertMany(state, action.payload.items);
+      state.totalItems = action.payload.totalItems;
+      state.status = "succeeded";
     });
     builder.addCase(fetchVolumes.rejected, (state, action) => {
       state.error = action.payload;
