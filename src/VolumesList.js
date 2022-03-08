@@ -27,13 +27,19 @@ const VolumesList = () => {
   if (volumesStatus === "failed") {
     volumesContent = <div className="">{error}</div>;
   } else if (volumes) {
-    volumesContent = volumes.map((volume) => (
-      <div key={volume.id} className="">
-        {volume.id}
+    volumesContent = (
+      <div className="">
+        <div className="">{totalItems}</div>
+        <ul className=""></ul>
+        {volumes.map((volume) => (
+          <li key={volume.id} className="">
+            {volume.id}
+          </li>
+        ))}
       </div>
-    ));
-  } else if (volumesStatus === "succeeded") {
-    volumesContent = <div className="">Nothing was found</div>;
+    );
+  } else {
+    volumesContent = <div className="">Something went wrong</div>;
   }
 
   return (

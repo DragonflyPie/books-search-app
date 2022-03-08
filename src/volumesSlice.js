@@ -39,12 +39,26 @@ export const fetchVolumes = createAsyncThunk(
     const response = await fetch(searchQuery);
     const data = await response.json();
     if (response.ok === false) {
+      console.log(data);
       return rejectWithValue(data.error.message);
     }
     return data;
   }
 );
 
+export const fetchSingleVolume = createAsyncThunk(
+  "search/volume",
+  async (volumeId, { rejectWithValue }) => {
+    const response = await fetch(
+      `https://www.googleapis.com/books/v1/volumes/${volumeId}?key=${key}`
+    );
+    const data = await response.json();
+    if ((response.ok = false)) {
+      return rejectWithValue(data.error.message);
+    }
+    return data;
+  }
+);
 const volumesSlice = createSlice({
   name: "volumes",
   initialState: searchInitialState,
@@ -55,9 +69,14 @@ const volumesSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(fetchVolumes.fulfilled, (state, action) => {
-      volumesAdapter.upsertMany(state, action.payload.items);
-      state.totalItems = action.payload.totalItems;
-      state.status = "succeeded";
+      if (action.payload.items) {
+        volumesAdapter.upsertMany(state, action.payload.items);
+        state.totalItems = action.payload.totalItems;
+        state.status = "succeeded";
+      } else {
+        state.error = "Nothing was found.";
+        state.status = "failed";
+      }
     });
     builder.addCase(fetchVolumes.rejected, (state, action) => {
       state.error = action.payload;
