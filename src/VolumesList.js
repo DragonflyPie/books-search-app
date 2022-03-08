@@ -17,16 +17,18 @@ const VolumesList = () => {
 
   if (volumesStatus === "loading") {
     volumesContent = <div className="">LOADING</div>;
-  } else if (volumesStatus === "succeeded" && totalItems !== null) {
+  } else if (volumesStatus === "succeeded" && volumes) {
     volumesContent = volumes.map((volume) => (
       <div key={volume.id} className="">
         {volume.id}
       </div>
     ));
   } else if (volumesStatus === "failed") {
-    volumesContent = <div className="">{error.message}</div>;
-  } else {
+    volumesContent = <div className="">{error}</div>;
+  } else if (volumesStatus === "succeeded") {
     volumesContent = <div className="">Nothing was found</div>;
+  } else {
+    volumesContent = <div className="">Something went wrong</div>;
   }
 
   return <div>{volumesContent}</div>;

@@ -6,7 +6,7 @@ import { fetchVolumes } from "./volumesSlice";
 
 const SearchForm = () => {
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("all");
   const [orderBy, setOrderBy] = useState("relevance");
   const dispatch = useDispatch();
   const categories = ["computers", "art", "biography"];

@@ -21,7 +21,7 @@ const searchInitialState = {
 
 export const fetchVolumes = createAsyncThunk(
   "search/volumes",
-  async (_, { getState }) => {
+  async (_, { getState, rejectWithValue }) => {
     const searchParams = await getState().search;
     const searchQuery = await createSearchQuery(
       searchParams.query,
@@ -30,7 +30,10 @@ export const fetchVolumes = createAsyncThunk(
       searchParams.page
     );
     const response = await fetch(searchQuery);
-    const data = response.json();
+    const data = await response.json();
+    if (response.ok === false) {
+      return rejectWithValue(data.error.message);
+    }
     return data;
   }
 );
@@ -44,7 +47,7 @@ const volumesSlice = createSlice({
       state.status = "succeeded";
     });
     builder.addCase(fetchVolumes.rejected, (state, action) => {
-      state.error = action.error.message;
+      state.error = action.payload;
       state.status = "failed";
     });
     builder.addCase(fetchVolumes.pending, (state, action) => {
