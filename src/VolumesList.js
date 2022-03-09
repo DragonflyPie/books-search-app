@@ -33,8 +33,33 @@ const VolumesList = () => {
         <div className="">{totalItems}</div>
         <ul className=""></ul>
         {volumes.map((volume) => (
-          <li key={volume.id} className="">
-            <Link to={`/volumes/${volume.id}`}>{volume.id}</Link>
+          <li key={volume.id} className="volume-card">
+            <Link to={`/volumes/${volume.id}`} className="">
+              {volume.volumeInfo?.imageLinks?.thumbnail ? (
+                <img
+                  className=""
+                  src={volume.volumeInfo.imageLinks.thumbnail}
+                  alt={volume.volumeInfo.title}
+                />
+              ) : (
+                <img
+                  className=""
+                  src={require("./app/images/no_image.png")}
+                  alt="Image is not avaliable"
+                />
+              )}
+            </Link>
+            <div className="">
+              <div className="">
+                <Link to={`/volumes/${volume.id}`}>
+                  {volume.volumeInfo.title.length > 62
+                    ? `${volume.volumeInfo.title.slice(0, 60)}...`
+                    : volume.volumeInfo.title}
+                </Link>
+              </div>
+              <div className="">{volume.volumeInfo?.authors?.join(", ")}</div>
+              <div className="">{volume.volumeInfo.categories}</div>
+            </div>
           </li>
         ))}
       </div>
