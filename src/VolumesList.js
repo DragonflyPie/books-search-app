@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePage } from "./searchSlice";
 import {
@@ -33,7 +34,7 @@ const VolumesList = () => {
         <ul className=""></ul>
         {volumes.map((volume) => (
           <li key={volume.id} className="">
-            {volume.id}
+            <Link to={`/volumes/${volume.id}`}>{volume.id}</Link>
           </li>
         ))}
       </div>

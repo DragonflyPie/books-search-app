@@ -48,14 +48,15 @@ export const fetchVolumes = createAsyncThunk(
   }
 );
 
-export const fetchSingleVolume = createAsyncThunk(
+export const fetchVolumeById = createAsyncThunk(
   "search/volume",
   async (volumeId, { rejectWithValue }) => {
     const response = await fetch(
       `https://www.googleapis.com/books/v1/volumes/${volumeId}?key=${key}`
     );
     const data = await response.json();
-    if ((response.ok = false)) {
+    console.log(response);
+    if (response.ok === false) {
       return rejectWithValue(data.error.message);
     }
     return data;
@@ -70,17 +71,28 @@ const volumesSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(fetchVolumes.fulfilled, (state, action) => {
-      volumesAdapter.upsertMany(state, action.payload.items);
-      state.totalItems = action.payload.totalItems;
-      state.status = "succeeded";
+    builder.addCase(fetchVolumes.pending, (state, action) => {
+      state.status = "loading";
     });
     builder.addCase(fetchVolumes.rejected, (state, action) => {
       state.error = action.payload;
       state.status = "failed";
     });
-    builder.addCase(fetchVolumes.pending, (state, action) => {
+    builder.addCase(fetchVolumes.fulfilled, (state, action) => {
+      volumesAdapter.upsertMany(state, action.payload.items);
+      state.totalItems = action.payload.totalItems;
+      state.status = "succeeded";
+    });
+    builder.addCase(fetchVolumeById.pending, (state, action) => {
       state.status = "loading";
+    });
+    builder.addCase(fetchVolumeById.rejected, (state, action) => {
+      state.error = action.payload;
+      state.status = "failed";
+    });
+    builder.addCase(fetchVolumeById.fulfilled, (state, action) => {
+      volumesAdapter.upsertOne(state, action.payload);
+      state.status = "succeeded";
     });
   },
 });

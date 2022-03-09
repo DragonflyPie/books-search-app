@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { updateSearchParams } from "./searchSlice";
 import { fetchVolumes, resetVolumesState } from "./volumesSlice";
 
@@ -10,6 +11,7 @@ const SearchForm = () => {
   const [orderBy, setOrderBy] = useState("relevance");
   const dispatch = useDispatch();
   const categories = ["computers", "art", "biography"];
+  const navigate = useNavigate();
 
   const categoryOptions = categories.map((category) => (
     <option key={category} value={category}>
@@ -29,6 +31,7 @@ const SearchForm = () => {
 
   const submitSearchForm = (e) => {
     e.preventDefault();
+    navigate("/");
     dispatch(resetVolumesState());
     dispatch(
       updateSearchParams({ query: query, category: category, orderBy: orderBy })
