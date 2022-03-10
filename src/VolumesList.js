@@ -59,6 +59,9 @@ const VolumesList = () => {
               </div>
               <div className="">{volume.volumeInfo?.authors?.join(", ")}</div>
               <div className="">{volume.volumeInfo.categories}</div>
+              <div className="">
+                {volume.volumeInfo.publishedDate.slice(0, 4)}
+              </div>
             </div>
           </li>
         ))}

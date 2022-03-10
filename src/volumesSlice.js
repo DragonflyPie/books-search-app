@@ -13,7 +13,7 @@ const createSearchQuery = (query, category, orderBy, page) => {
     category !== "all" ? `+subject:${category}` : ""
   }&orderBy=${orderBy}&startIndex=${
     page * 10 - 9
-  }&maxResults=10&fields=totalItems,items(id,volumeInfo(description,imageLinks,authors,categories,title))&key=${key}`;
+  }&maxResults=10&fields=totalItems,items(id,volumeInfo(description,publishedDate,imageLinks,authors,categories,title))&key=${key}`;
 };
 
 const volumesAdapter = createEntityAdapter({
@@ -39,7 +39,6 @@ export const fetchVolumes = createAsyncThunk(
     const response = await fetch(searchQuery);
     const data = await response.json();
     if (response.ok === false) {
-      console.log(data);
       return rejectWithValue(data.error.message);
     } else if (data.totalItems === 0) {
       return rejectWithValue("Nothing was found");
@@ -55,7 +54,6 @@ export const fetchVolumeById = createAsyncThunk(
       `https://www.googleapis.com/books/v1/volumes/${volumeId}?key=${key}`
     );
     const data = await response.json();
-    console.log(response);
     if (response.ok === false) {
       return rejectWithValue(data.error.message);
     }
