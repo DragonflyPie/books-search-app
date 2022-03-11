@@ -34,39 +34,54 @@ const SearchForm = () => {
     navigate("/");
     dispatch(resetVolumesState());
     dispatch(
-      updateSearchParams({ query: query, category: category, orderBy: orderBy })
+      updateSearchParams({
+        query: query,
+        category: category,
+        orderBy: orderBy,
+        page: 1,
+      })
     );
     dispatch(fetchVolumes());
   };
   return (
-    <form onSubmit={submitSearchForm}>
-      <div className="search-group">
+    <form onSubmit={submitSearchForm} className="search-form">
+      <div className="search-form__input-group">
         <input
+          className="search-form__input"
           type="text"
           placeholder="Search..."
           value={query}
           onChange={handleQueryChange}
         />
-        <button className="search" type="submit">
+        <button className="search-form__btn" type="submit">
           <BiSearchAlt />
         </button>
       </div>
-      <div className="">
-        <label htmlFor="category">Category</label>
-        <select name="" id="" value={category} onChange={handleCategoryChange}>
-          <option value="all">All</option>
-          {categoryOptions}
-        </select>
-        <label htmlFor="orderBy">Order By</label>
-        <select
-          name="orderBy"
-          id="orderBy"
-          value={orderBy}
-          onChange={handleOrderByChange}
-        >
-          <option value="relevance">Relevance</option>
-          <option value="newest">Newest</option>
-        </select>
+      <div className="search-form__bar">
+        <div className="search-form__select-group">
+          <label htmlFor="category">Category</label>
+          <select
+            name=""
+            id=""
+            value={category}
+            onChange={handleCategoryChange}
+          >
+            <option value="all">All</option>
+            {categoryOptions}
+          </select>
+        </div>
+        <div className="search-form__select-group">
+          <label htmlFor="orderBy">Order By</label>
+          <select
+            name="orderBy"
+            id="orderBy"
+            value={orderBy}
+            onChange={handleOrderByChange}
+          >
+            <option value="relevance">Relevance</option>
+            <option value="newest">Newest</option>
+          </select>
+        </div>
       </div>
     </form>
   );

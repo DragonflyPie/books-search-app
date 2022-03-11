@@ -1,7 +1,7 @@
 import React from "react";
 import NoMatch from "./NoMatch";
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
+import "./App.scss";
 import Layout from "./Layout";
 import VolumesList from "./VolumesList";
 import SingleVolume from "./SingleVolume";

@@ -5,7 +5,7 @@ import SearchForm from "./searchForm";
 const Layout = () => {
   return (
     <>
-      <div className="">
+      <div className="navbar">
         <h1>Search for books</h1>
         <SearchForm />
       </div>

@@ -12,6 +12,7 @@ const searchSlice = createSlice({
       state.query = action.payload.query;
       state.category = action.payload.category;
       state.orderBy = action.payload.orderBy;
+      state.page = action.payload.page;
     },
     updatePage(state) {
       state.page++;
