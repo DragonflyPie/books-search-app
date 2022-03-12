@@ -34,11 +34,19 @@ const SingleVolume = () => {
       )}
 
       <div className="volume__info">
-        <div className="volume__category">{volume.volumeInfo?.categories}</div>
         <div className="volume__title">{volume.volumeInfo.title}</div>
-        <div className="volume__pages">{volume.volumeInfo.pageCount}</div>{" "}
-        <div className="volume__date">{volume.volumeInfo.publishedDate}</div>{" "}
+        <div className="volume__categories">
+          {volume.volumeInfo?.categories}
+        </div>
+        <div className="volume__pages">
+          {volume.volumeInfo?.pageCount}
+          {" pages"}
+        </div>
         <div className="volume__authors">
+          <span className="volume__date">
+            {volume.volumeInfo?.publishedDate?.slice(0, 4)}
+            {": "}
+          </span>
           {volume.volumeInfo.hasOwnProperty("authors")
             ? volume.volumeInfo.authors.join(", ")
             : "Author is not specified"}

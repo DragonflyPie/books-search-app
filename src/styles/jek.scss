@@ -153,3 +153,60 @@ button {
     }
   }
 }
+
+.search-form {
+  min-width: 30em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.select-bar {
+  display: flex;
+  gap: 0.5em;
+  width: 22em;
+  justify-content: space-between;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  &.input-form-group {
+    width: 22em;
+  }
+}
+
+input {
+  width: 100%;
+}
+
+select,
+input {
+  font-size: 1em;
+  padding: 0.1em 0.25em;
+  border-radius: 0.15em;
+  border: 0;
+  appearance: none;
+  box-shadow: none;
+  &:focus {
+    outline: 0.1em solid base.$black;
+  }
+  &.grey {
+    color: "grey";
+  }
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 30em;
+}
+
+.form-error {
+  font-size: 0.7em;
+  color: red;
+  padding-right: 5em;
+}

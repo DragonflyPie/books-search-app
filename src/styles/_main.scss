@@ -199,6 +199,29 @@ h6 {
 
 .volume {
   margin-top: 9rem;
+  display: flex;
+  padding: 1em;
+  gap: 1em;
+
+  &__img {
+    // height: 0px;
+    max-height: calc(100vh - 11rem);
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+
+  &__title {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  &__categories {
+    font-style: italic;
+  }
 }
 
 .card {
@@ -263,5 +286,11 @@ h6 {
   &__img {
     max-height: 200px;
     // aspect-ratio: 1/1.5;
+  }
+}
+
+@media (max-width: 767px) {
+  .volume {
+    flex-direction: column;
   }
 }
