@@ -9,9 +9,11 @@ const SearchForm = () => {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
   const [orderBy, setOrderBy] = useState("relevance");
+  const [wrongQuery, setWrongQuery] = useState(false);
   const dispatch = useDispatch();
-  const categories = ["computers", "art", "biography"];
+  const categories = ["Computers", "Art", "Biography"];
   const navigate = useNavigate();
+  const classNames = require("classnames");
 
   const categoryOptions = categories.map((category) => (
     <option key={category} value={category}>
@@ -29,8 +31,18 @@ const SearchForm = () => {
     setOrderBy(e.target.value);
   };
 
+  let inputClass = classNames({
+    "search-form__input": true,
+    "search-form__input--wrong": wrongQuery,
+  });
+
   const submitSearchForm = (e) => {
     e.preventDefault();
+    if (!query) {
+      setWrongQuery(true);
+      return;
+    }
+    setWrongQuery(false);
     navigate("/");
     dispatch(resetVolumesState());
     dispatch(
@@ -47,9 +59,9 @@ const SearchForm = () => {
     <form onSubmit={submitSearchForm} className="search-form">
       <div className="search-form__input-group">
         <input
-          className="search-form__input"
+          className={inputClass}
           type="text"
-          placeholder="Search..."
+          placeholder={wrongQuery ? "" : "Search..."}
           value={query}
           onChange={handleQueryChange}
         />
@@ -57,10 +69,16 @@ const SearchForm = () => {
           <BiSearchAlt />
         </button>
       </div>
+      {wrongQuery ? (
+        <div className="search-form__error">Missing query</div>
+      ) : (
+        ""
+      )}
       <div className="search-form__bar">
         <div className="search-form__select-group">
           <label htmlFor="category">Category</label>
           <select
+            className="search-form__select"
             name=""
             id=""
             value={category}
@@ -73,6 +91,7 @@ const SearchForm = () => {
         <div className="search-form__select-group">
           <label htmlFor="orderBy">Order By</label>
           <select
+            className="search-form__select"
             name="orderBy"
             id="orderBy"
             value={orderBy}
