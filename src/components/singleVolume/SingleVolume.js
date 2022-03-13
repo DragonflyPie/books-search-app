@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchVolumeById, selectVolumeById } from "./volumesSlice";
+import { fetchVolumeById, selectVolumeById } from "../../redux/volumesSlice";
 
 const SingleVolume = () => {
   const { volumeId } = useParams();
@@ -28,7 +28,7 @@ const SingleVolume = () => {
       ) : (
         <img
           className="volume__img"
-          src={require("./app/images/no_image.png")}
+          src={require("../../assets/no_image.png")}
           alt="Image is not available"
         />
       )}

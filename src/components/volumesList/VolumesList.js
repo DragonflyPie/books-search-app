@@ -1,14 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updatePage } from "./searchSlice";
-import {
-  fetchVolumes,
-  resetVolumesState,
-  selectAllVolumes,
-  selectVolumeById,
-  selectVolumesIds,
-} from "./volumesSlice";
+import { updatePage } from "../../redux/searchSlice";
+import { fetchVolumes, selectAllVolumes } from "../../redux/volumesSlice";
 
 const VolumesList = () => {
   const dispatch = useDispatch();
@@ -48,7 +42,7 @@ const VolumesList = () => {
                   ) : (
                     <img
                       className="card__img"
-                      src={require("./app/images/no_image.png")}
+                      src={require("../../assets/no_image.png")}
                       alt="Image is not avaliable"
                     />
                   )}

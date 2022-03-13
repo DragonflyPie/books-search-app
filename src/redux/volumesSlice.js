@@ -3,7 +3,7 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from "@reduxjs/toolkit";
-import key from "./apiKey";
+import key from "../apiKey";
 
 const createSearchQuery = (query, category, orderBy, page) => {
   return `https://www.googleapis.com/books/v1/volumes?q=${query.replace(

@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import SearchForm from "./searchForm";
+import SearchForm from "../searchForm/searchForm";
 
 const Layout = () => {
   return (

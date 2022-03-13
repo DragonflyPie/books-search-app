@@ -1,10 +1,10 @@
 import React from "react";
-import NoMatch from "./NoMatch";
+import NoMatch from "./components/noMatch/NoMatch";
 import { Route, Routes } from "react-router-dom";
 import "./App.scss";
-import Layout from "./Layout";
-import VolumesList from "./VolumesList";
-import SingleVolume from "./SingleVolume";
+import Layout from "./components/layout/Layout";
+import VolumesList from "./components/volumesList/VolumesList";
+import SingleVolume from "./components/singleVolume/SingleVolume";
 
 function App() {
   return (

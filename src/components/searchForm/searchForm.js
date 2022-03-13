@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { updateSearchParams } from "./searchSlice";
-import { fetchVolumes, resetVolumesState } from "./volumesSlice";
+import { updateSearchParams } from "../../redux/searchSlice";
+import { fetchVolumes, resetVolumesState } from "../../redux/volumesSlice";
 
 const SearchForm = () => {
   const [query, setQuery] = useState("");
