@@ -164,6 +164,7 @@ h6 {
     display: grid;
     width: 100%;
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    grid-auto-rows: 1fr;
     gap: 1em;
     padding: 0.5rem;
   }
@@ -239,7 +240,13 @@ h6 {
   &__bar {
     display: flex;
     width: 100%;
-    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  &__img {
+    height: 12rem;
+    max-width: 50%;
+    box-shadow: 0 0.2em 1em rgba(26, 26, 23, 0.4);
   }
 
   &__info {
@@ -264,6 +271,7 @@ h6 {
     justify-content: center;
     align-items: center;
     width: 100%;
+    align-self: center;
 
     & p {
       text-align: center;
@@ -280,11 +288,6 @@ h6 {
 
   &__date {
     font-weight: bold;
-  }
-
-  &__img {
-    max-height: 200px;
-    // aspect-ratio: 1/1.5;
   }
 }
 

@@ -1,21 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { updatePage } from "../../redux/searchSlice";
-import { fetchVolumes, selectAllVolumes } from "../../redux/volumesSlice";
+import useVolumesList from "./useVolumesList";
 
 const VolumesList = () => {
-  const dispatch = useDispatch();
-
-  const volumes = useSelector((state) => selectAllVolumes(state));
-  const volumesStatus = useSelector((state) => state.volumes.status);
-  const error = useSelector((state) => state.volumes.error);
-  const totalItems = useSelector((state) => state.volumes.totalItems);
-
-  const loadNextPage = () => {
-    dispatch(updatePage());
-    dispatch(fetchVolumes());
-  };
+  const { volumes, volumesStatus, error, totalItems, loadNextPage } =
+    useVolumesList();
 
   let volumesContent;
 

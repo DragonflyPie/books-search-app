@@ -1,16 +1,9 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { fetchVolumeById, selectVolumeById } from "../../redux/volumesSlice";
+import React from "react";
+import useSingleVolume from "./useSingleVolume";
 
 const SingleVolume = () => {
-  const { volumeId } = useParams();
-  const dispatch = useDispatch();
+  const { volume } = useSingleVolume();
 
-  const volume = useSelector((state) => selectVolumeById(state, volumeId));
-  useEffect(() => {
-    dispatch(fetchVolumeById(volumeId));
-  }, [volumeId]);
   return (
     <div className="volume">
       {volume.volumeInfo?.imageLinks?.medium ? (
