@@ -3,8 +3,9 @@ import { BiSearchAlt } from "react-icons/bi";
 import useSearchForm from "./useSearchForm";
 
 const SearchForm = () => {
+  const classNames = require("classnames");
+
   const {
-    inputClass,
     submitSearchForm,
     handleCategoryChange,
     handleOrderByChange,
@@ -15,6 +16,11 @@ const SearchForm = () => {
     query,
     wrongQuery,
   } = useSearchForm();
+
+  let inputClass = classNames({
+    "search-form__input": true,
+    "search-form__input--wrong": wrongQuery,
+  });
 
   return (
     <form onSubmit={submitSearchForm} className="search-form">

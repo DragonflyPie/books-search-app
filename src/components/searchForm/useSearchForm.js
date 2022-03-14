@@ -12,7 +12,6 @@ const useSearchForm = () => {
   const dispatch = useDispatch();
   const categories = ["Computers", "Art", "Biography", "History", "Science"];
   const navigate = useNavigate();
-  const classNames = require("classnames");
 
   const categoryOptions = categories.map((category) => (
     <option key={category} value={category}>
@@ -29,11 +28,6 @@ const useSearchForm = () => {
   const handleOrderByChange = (e) => {
     setOrderBy(e.target.value);
   };
-
-  let inputClass = classNames({
-    "search-form__input": true,
-    "search-form__input--wrong": wrongQuery,
-  });
 
   const submitSearchForm = (e) => {
     e.preventDefault();
@@ -55,7 +49,6 @@ const useSearchForm = () => {
     dispatch(fetchVolumes());
   };
   return {
-    inputClass,
     submitSearchForm,
     handleCategoryChange,
     handleOrderByChange,
