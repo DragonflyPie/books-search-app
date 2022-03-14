@@ -23,7 +23,11 @@ const SearchForm = () => {
   });
 
   return (
-    <form onSubmit={submitSearchForm} className="search-form">
+    <form
+      onSubmit={submitSearchForm}
+      className="search-form"
+      name="search-form"
+    >
       <div className="search-form__input-group">
         <input
           className={inputClass}
@@ -37,7 +41,9 @@ const SearchForm = () => {
         </button>
       </div>
       {wrongQuery ? (
-        <div className="search-form__error">Missing query</div>
+        <div className="search-form__error" data-testid="error">
+          Missing query
+        </div>
       ) : (
         ""
       )}
@@ -46,8 +52,8 @@ const SearchForm = () => {
           <label htmlFor="category">Category</label>
           <select
             className="search-form__select"
-            name=""
-            id=""
+            name="category"
+            data-testid="category"
             value={category}
             onChange={handleCategoryChange}
           >
@@ -60,6 +66,7 @@ const SearchForm = () => {
           <select
             className="search-form__select"
             name="orderBy"
+            data-testid="orderBy"
             id="orderBy"
             value={orderBy}
             onChange={handleOrderByChange}
