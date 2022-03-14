@@ -11,7 +11,6 @@ const VolumesList = () => {
   if (volumesStatus === "failed") {
     volumesContent = <div className="volumes-list__error">{error}</div>;
   } else if (volumes.length !== 0) {
-    console.log(volumes.length !== 0);
     volumesContent = (
       <>
         <h2 className="volumes-list__total-items">

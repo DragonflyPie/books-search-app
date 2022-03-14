@@ -2,9 +2,13 @@ import React from "react";
 import useSingleVolume from "./useSingleVolume";
 
 const SingleVolume = () => {
-  const { volume } = useSingleVolume();
+  const { volume, error, volumesStatus } = useSingleVolume();
 
-  return (
+  return volumesStatus === "failed" ? (
+    <div className="volume__error">{error.message}</div>
+  ) : volumesStatus === "loading" ? (
+    <div className="loader">Loading...</div>
+  ) : (
     <div className="volume">
       {volume.volumeInfo?.imageLinks?.medium ? (
         <img
@@ -25,7 +29,6 @@ const SingleVolume = () => {
           alt="Image is not available"
         />
       )}
-
       <div className="volume__info">
         <div className="volume__title">{volume.volumeInfo.title}</div>
         <div className="volume__categories">

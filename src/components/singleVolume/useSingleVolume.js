@@ -8,11 +8,14 @@ const useSingleVolume = () => {
   const dispatch = useDispatch();
 
   const volume = useSelector((state) => selectVolumeById(state, volumeId));
+  const volumesStatus = useSelector((state) => state.volumes.status);
+  const error = useSelector((state) => state.volumes.error);
+
   useEffect(() => {
     dispatch(fetchVolumeById(volumeId));
   }, [volumeId, dispatch]);
 
-  return { volume };
+  return { volume, volumesStatus, error };
 };
 
 export default useSingleVolume;
