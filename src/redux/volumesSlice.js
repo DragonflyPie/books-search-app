@@ -3,7 +3,8 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from "@reduxjs/toolkit";
-import key from "../apiKey";
+
+const key = "process.env.API_KEY";
 
 const BASE_QUERY = "https://www.googleapis.com/books/v1/volumes";
 
