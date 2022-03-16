@@ -43,17 +43,18 @@ const searchInitialState = volumesAdapter.getInitialState({
 
 export const fetchVolumes = createAsyncThunk(
   "search/volumes",
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { getState, rejectWithValue, fulfillWithValue }) => {
     const searchParams = await getState().search;
     const searchQuery = await createSearchQuery(searchParams);
     const response = await fetch(searchQuery);
     const data = await response.json();
-    if (response.ok === false) {
+    if (!response.ok) {
       return rejectWithValue(data.error.message);
     } else if (data.totalItems === 0) {
       return rejectWithValue("Nothing was found");
     }
-    return data;
+    const newSearch = searchParams.page === 1;
+    return fulfillWithValue(data, { newSearch: newSearch });
   }
 );
 
@@ -62,7 +63,7 @@ export const fetchVolumeById = createAsyncThunk(
   async (volumeId, { rejectWithValue }) => {
     const response = await fetch(`${BASE_QUERY}/${volumeId}?key=${key}`);
     const data = await response.json();
-    if (response.ok === false) {
+    if (!response.ok) {
       return rejectWithValue(data.error.message);
     }
     return data;
@@ -71,13 +72,9 @@ export const fetchVolumeById = createAsyncThunk(
 const volumesSlice = createSlice({
   name: "volumes",
   initialState: searchInitialState,
-  reducers: {
-    resetVolumesState: () => {
-      return searchInitialState;
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
-    builder.addCase(fetchVolumes.pending, (state, action) => {
+    builder.addCase(fetchVolumes.pending, (state) => {
       state.status = "loading";
     });
     builder.addCase(fetchVolumes.rejected, (state, action) => {
@@ -85,7 +82,9 @@ const volumesSlice = createSlice({
       state.status = "failed";
     });
     builder.addCase(fetchVolumes.fulfilled, (state, action) => {
-      volumesAdapter.upsertMany(state, action.payload.items);
+      action.meta.newSearch
+        ? volumesAdapter.setAll(state, action.payload.items)
+        : volumesAdapter.upsertMany(state, action.payload.items);
       state.totalItems = action.payload.totalItems;
       state.status = "succeeded";
     });

@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { fetchVolumes, resetVolumesState } from "../../redux/volumesSlice";
+import { fetchVolumes } from "../../redux/volumesSlice";
 import { updateSearchParams } from "../../redux/searchSlice";
 
 const useSearchForm = () => {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
   const [orderBy, setOrderBy] = useState("relevance");
-  const [wrongQuery, setWrongQuery] = useState(false);
+  const [queryError, setQueryError] = useState(false);
   const dispatch = useDispatch();
-  const categories = ["Computers", "Art", "Biography", "History", "Science"];
   const navigate = useNavigate();
+
+  const CATEGORIES = ["Computers", "Art", "Biography", "History", "Science"];
 
   const handleQueryChange = (e) => {
     setQuery(e.target.value);
@@ -26,20 +27,20 @@ const useSearchForm = () => {
   const submitSearchForm = (e) => {
     e.preventDefault();
     if (!query) {
-      setWrongQuery(true);
+      setQueryError(true);
       return;
     }
-    setWrongQuery(false);
+    setQueryError(false);
+
+    let searchParams = {
+      query: query,
+      category: category,
+      orderBy: orderBy,
+      page: 1,
+    };
+
     navigate("/");
-    dispatch(resetVolumesState());
-    dispatch(
-      updateSearchParams({
-        query: query,
-        category: category,
-        orderBy: orderBy,
-        page: 1,
-      })
-    );
+    dispatch(updateSearchParams(searchParams));
     dispatch(fetchVolumes());
   };
   return {
@@ -48,10 +49,10 @@ const useSearchForm = () => {
     handleOrderByChange,
     handleQueryChange,
     orderBy,
-    categories,
+    categories: CATEGORIES,
     category,
     query,
-    wrongQuery,
+    queryError,
   };
 };
 

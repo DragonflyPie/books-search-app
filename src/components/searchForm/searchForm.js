@@ -14,12 +14,12 @@ const SearchForm = () => {
     orderBy,
     category,
     query,
-    wrongQuery,
+    queryError,
   } = useSearchForm();
 
   let inputClass = classNames({
     "search-form__input": true,
-    "search-form__input--wrong": wrongQuery,
+    "search-form__input--wrong": queryError,
   });
 
   return (
@@ -33,7 +33,7 @@ const SearchForm = () => {
           className={inputClass}
           data-testid="searchInput"
           type="text"
-          placeholder={wrongQuery ? "" : "Search..."}
+          placeholder={queryError ? "" : "Search..."}
           value={query}
           onChange={handleQueryChange}
         />
@@ -41,7 +41,7 @@ const SearchForm = () => {
           <BiSearchAlt />
         </button>
       </div>
-      {wrongQuery ? (
+      {queryError ? (
         <div className="search-form__error" data-testid="error">
           Missing query
         </div>
