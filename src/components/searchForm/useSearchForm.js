@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { fetchVolumes } from "../../redux/volumesSlice";
+import { useNavigate } from "react-router-dom";
 import { updateSearchParams } from "../../redux/searchSlice";
+import { fetchVolumes } from "../../redux/volumesSlice";
 
 const useSearchForm = () => {
   const [query, setQuery] = useState("");
