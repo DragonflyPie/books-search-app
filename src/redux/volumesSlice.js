@@ -10,12 +10,14 @@ const BASE_QUERY = "https://www.googleapis.com/books/v1/volumes";
 const FIELDS =
   "totalItems,items(id,volumeInfo(description,publishedDate,imageLinks,authors,categories,title))";
 
+const maxResults = 30;
+
 const createSearchQuery = (searchParams) => {
   return `${BASE_QUERY}?q=${removeSpaces(searchParams.query)}${getCategory(
     searchParams.category
-  )}&orderBy=${searchParams.orderBy}&startIndex=${getPage(
+  )}&orderBy=${searchParams.orderBy}&startIndex=${getStartingIndex(
     searchParams.page
-  )}&maxResults=10&fields=${FIELDS}&key=${key}`;
+  )}&maxResults=${maxResults}&fields=${FIELDS}&key=${key}`;
 };
 
 const removeSpaces = (query) => {
@@ -26,8 +28,8 @@ const getCategory = (category) => {
   return category === "all" ? "" : `+subject:${category}`;
 };
 
-const getPage = (page) => {
-  return page * 10 - 9;
+const getStartingIndex = (page) => {
+  return page * maxResults - (maxResults - 1);
 };
 const volumesAdapter = createEntityAdapter({
   selectId: (volume) => volume.id,
