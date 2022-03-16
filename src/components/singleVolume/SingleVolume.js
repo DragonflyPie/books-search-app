@@ -26,7 +26,7 @@ const SingleVolume = () => {
         <img
           className="volume__img"
           src={require("../../assets/no_image.png")}
-          alt="Image is not available"
+          alt="Not available"
         />
       )}
       <div className="volume__info">

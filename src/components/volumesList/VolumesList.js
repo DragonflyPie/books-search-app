@@ -40,7 +40,7 @@ const VolumesList = () => {
                     <img
                       className="card__img"
                       src={require("../../assets/no_image.png")}
-                      alt="Image is not avaliable"
+                      alt="Not avaliable"
                     />
                   )}
                   <div className="card__title">
