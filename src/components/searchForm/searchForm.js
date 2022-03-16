@@ -10,7 +10,7 @@ const SearchForm = () => {
     handleCategoryChange,
     handleOrderByChange,
     handleQueryChange,
-    categoryOptions,
+    categories,
     orderBy,
     category,
     query,
@@ -59,7 +59,11 @@ const SearchForm = () => {
             onChange={handleCategoryChange}
           >
             <option value="all">All</option>
-            {categoryOptions}
+            {categories.map((category) => (
+              <option value={category.toLocaleLowerCase()} key={category}>
+                {category}
+              </option>
+            ))}
           </select>
         </div>
         <div className="search-form__select-group">

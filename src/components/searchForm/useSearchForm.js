@@ -13,12 +13,6 @@ const useSearchForm = () => {
   const categories = ["Computers", "Art", "Biography", "History", "Science"];
   const navigate = useNavigate();
 
-  const categoryOptions = categories.map((category) => (
-    <option key={category} value={category}>
-      {category}
-    </option>
-  ));
-
   const handleQueryChange = (e) => {
     setQuery(e.target.value);
   };
@@ -53,8 +47,8 @@ const useSearchForm = () => {
     handleCategoryChange,
     handleOrderByChange,
     handleQueryChange,
-    categoryOptions,
     orderBy,
+    categories,
     category,
     query,
     wrongQuery,

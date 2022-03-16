@@ -5,17 +5,30 @@ import {
 } from "@reduxjs/toolkit";
 import key from "../apiKey";
 
-const createSearchQuery = (query, category, orderBy, page) => {
-  return `https://www.googleapis.com/books/v1/volumes?q=${query.replace(
-    /\s/g,
-    "+"
-  )}${
-    category !== "all" ? `+subject:${category}` : ""
-  }&orderBy=${orderBy}&startIndex=${
-    page * 10 - 9
-  }&maxResults=10&fields=totalItems,items(id,volumeInfo(description,publishedDate,imageLinks,authors,categories,title))&key=${key}`;
+const BASE_QUERY = "https://www.googleapis.com/books/v1/volumes";
+
+const FIELDS =
+  "totalItems,items(id,volumeInfo(description,publishedDate,imageLinks,authors,categories,title))";
+
+const createSearchQuery = (searchParams) => {
+  return `${BASE_QUERY}?q=${removeSpaces(searchParams.query)}${getCategory(
+    searchParams.category
+  )}&orderBy=${searchParams.orderBy}&startIndex=${getPage(
+    searchParams.page
+  )}&maxResults=10&fields=${FIELDS}&key=${key}`;
 };
 
+const removeSpaces = (query) => {
+  return query.replace(/\s/g, "+");
+};
+
+const getCategory = (category) => {
+  return category === "all" ? "" : `+subject:${category}`;
+};
+
+const getPage = (page) => {
+  return page * 10 - 9;
+};
 const volumesAdapter = createEntityAdapter({
   selectId: (volume) => volume.id,
 });
@@ -30,12 +43,7 @@ export const fetchVolumes = createAsyncThunk(
   "search/volumes",
   async (_, { getState, rejectWithValue }) => {
     const searchParams = await getState().search;
-    const searchQuery = await createSearchQuery(
-      searchParams.query,
-      searchParams.category,
-      searchParams.orderBy,
-      searchParams.page
-    );
+    const searchQuery = await createSearchQuery(searchParams);
     const response = await fetch(searchQuery);
     const data = await response.json();
     if (response.ok === false) {
@@ -50,9 +58,7 @@ export const fetchVolumes = createAsyncThunk(
 export const fetchVolumeById = createAsyncThunk(
   "search/volume",
   async (volumeId, { rejectWithValue }) => {
-    const response = await fetch(
-      `https://www.googleapis.com/books/v1/volumes/${volumeId}?key=${key}`
-    );
+    const response = await fetch(`${BASE_QUERY}/${volumeId}?key=${key}`);
     const data = await response.json();
     if (response.ok === false) {
       return rejectWithValue(data.error.message);
