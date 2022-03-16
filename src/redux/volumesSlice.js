@@ -4,7 +4,7 @@ import {
   createEntityAdapter,
 } from "@reduxjs/toolkit";
 
-const key = process.env.api_key;
+const key = process.env.REACT_APP_API_KEY;
 
 const BASE_QUERY = "https://www.googleapis.com/books/v1/volumes";
 
