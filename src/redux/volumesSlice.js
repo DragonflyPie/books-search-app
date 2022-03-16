@@ -7,7 +7,7 @@ import key from "../apiKey";
 
 const createSearchQuery = (query, category, orderBy, page) => {
   return `https://www.googleapis.com/books/v1/volumes?q=${query.replace(
-    / /g,
+    /\s/g,
     "+"
   )}${
     category !== "all" ? `+subject:${category}` : ""

@@ -6,13 +6,22 @@ const VolumesList = () => {
   const { volumes, volumesStatus, error, totalItems, loadNextPage } =
     useVolumesList();
 
-  let volumesContent;
+  const renderLoading = volumesStatus === "loading" && (
+    <div className="loader">loading....</div>
+  );
 
   if (volumesStatus === "failed") {
-    volumesContent = <div className="volumes-list__error">{error}</div>;
-  } else if (volumes.length !== 0) {
-    volumesContent = (
-      <>
+    return (
+      <div className="volumes-list">
+        <div className="volumes-list__error">{error}</div>
+        {renderLoading}
+      </div>
+    );
+  }
+
+  if (volumes.length !== 0) {
+    return (
+      <div className="volumes-list">
         <h2 className="volumes-list__total-items">
           Total volumes: {totalItems}
         </h2>
@@ -67,16 +76,12 @@ const VolumesList = () => {
         <button className="volumes-list__button" onClick={loadNextPage}>
           Load more
         </button>
-      </>
+        {renderLoading}
+      </div>
     );
   }
 
-  return (
-    <div className="volumes-list">
-      {volumesContent}
-      {volumesStatus === "loading" && <div className="loader">loading....</div>}
-    </div>
-  );
+  return null;
 };
 
 export default VolumesList;

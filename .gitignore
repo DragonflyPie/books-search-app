@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 #env
 apiKey.js
+App.test.js
+app2.test.js
+test-utils.js

@@ -31,6 +31,7 @@ const SearchForm = () => {
       <div className="search-form__input-group">
         <input
           className={inputClass}
+          data-testid="searchInput"
           type="text"
           placeholder={wrongQuery ? "" : "Search..."}
           value={query}

@@ -175,6 +175,11 @@ h6 {
     text-align: center;
   }
 
+  &__error {
+    margin-top: 3em;
+    font-size: large;
+  }
+
   &__button {
     background-color: base.$dark-1;
     color: base.$white;
