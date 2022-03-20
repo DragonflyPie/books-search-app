@@ -11,14 +11,14 @@ const BASE_QUERY = "https://www.googleapis.com/books/v1/volumes";
 const FIELDS =
   "totalItems,items(id,volumeInfo(description,publishedDate,imageLinks,authors,categories,title))";
 
-const maxResults = 30;
+const MAX_RESULTS = 30;
 
 const createSearchQuery = (searchParams) => {
   return `${BASE_QUERY}?q=${removeSpaces(searchParams.query)}${getCategory(
     searchParams.category
   )}&orderBy=${searchParams.orderBy}&startIndex=${getStartingIndex(
     searchParams.page
-  )}&maxResults=${maxResults}&fields=${FIELDS}&key=${key}`;
+  )}&maxResults=${MAX_RESULTS}&fields=${FIELDS}&key=${key}`;
 };
 
 const removeSpaces = (query) => {
@@ -30,8 +30,9 @@ const getCategory = (category) => {
 };
 
 const getStartingIndex = (page) => {
-  return page * maxResults - (maxResults - 1);
+  return page * MAX_RESULTS - (MAX_RESULTS - 1);
 };
+
 const volumesAdapter = createEntityAdapter({
   selectId: (volume) => volume.id,
 });
@@ -51,8 +52,6 @@ export const fetchVolumes = createAsyncThunk(
     const data = await response.json();
     if (!response.ok) {
       return rejectWithValue(data.error.message);
-    } else if (data.totalItems === 0) {
-      return rejectWithValue("Nothing was found");
     }
     const newSearch = searchParams.page === 1;
     return fulfillWithValue(data, { newSearch: newSearch });
@@ -83,10 +82,12 @@ const volumesSlice = createSlice({
       state.status = "failed";
     });
     builder.addCase(fetchVolumes.fulfilled, (state, action) => {
-      action.meta.newSearch
-        ? volumesAdapter.setAll(state, action.payload.items)
-        : volumesAdapter.upsertMany(state, action.payload.items);
       state.totalItems = action.payload.totalItems;
+      if (action.payload.totalItems !== 0) {
+        action.meta.newSearch
+          ? volumesAdapter.setAll(state, action.payload.items)
+          : volumesAdapter.upsertMany(state, action.payload.items);
+      }
       state.status = "succeeded";
     });
     builder.addCase(fetchVolumeById.pending, (state, action) => {
