@@ -10,6 +10,16 @@ const VolumesList = () => {
     <div className="loader">loading....</div>
   );
 
+  if (volumesStatus === "idle") {
+    return (
+      <div className="volumes-list">
+        <div className="volumes-list__welcome">
+          <h2>Welcome!</h2>
+          <p>What are you looking for today, stranger?</p>
+        </div>
+      </div>
+    );
+  }
   if (volumesStatus === "failed") {
     return (
       <div className="volumes-list">
